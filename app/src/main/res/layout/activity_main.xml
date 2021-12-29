@@ -96,45 +96,129 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
+        android:id="@+id/anchor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toLeftOf="@id/searchLayout"
+        app:layout_constraintTop_toTopOf="@id/searchLayout"
+        android:layout_marginTop="60dp"
+        android:orientation="vertical"/>
+
+    <LinearLayout
         android:id="@+id/searchLayout"
-        android:layout_width="match_parent"
+        android:layout_width="360dp"
         android:layout_height="wrap_content"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/reverseBtn"
         android:orientation="vertical"
         android:background="@drawable/searchbox"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="36dp"
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="22dp"
         android:layout_marginRight="22dp">
 
-        <EditText
-            android:id="@+id/searchEditText"
+        <AutoCompleteTextView
+            android:id="@+id/searchText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lines="10"
             android:minLines="6"
             android:maxLines="14"
             android:gravity="top"
-            android:hint="کلمه را برای ترجمه تایپ کنید"
+            android:hint="کلمه را برای ترجمه وارد کنید"
             android:textColorHint="#D0717070"
             android:textColor="@color/black"
             android:textSize="20dp"
             android:inputType="textMultiLine"
             android:layout_weight="1"
             android:background="@android:color/transparent"
+            android:dropDownAnchor="@id/anchor"
+            android:dropDownWidth="360dp"
+            android:dropDownHeight="200dp"
+            android:popupBackground="#D8F3DC"
             android:padding="16dp" />
 
-        <ImageButton
-            android:id="@+id/pasteBtn"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:src="@drawable/ic_paste"
-            android:layout_gravity="right"
-            android:background="@drawable/ripple"
-            android:layout_margin="10dp" />
+            android:padding="8dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/translateBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="ترجمه"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                android:background="@drawable/translate_button_bg"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginRight="2dp"/>
+
+            <ImageButton
+                android:id="@+id/pasteBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:src="@drawable/ic_paste"
+                android:background="@drawable/ripple"
+                app:layout_constraintTop_toTopOf="@+id/translateBtn"
+                app:layout_constraintBottom_toBottomOf="@+id/translateBtn"
+                app:layout_constraintRight_toLeftOf="@+id/translateBtn"
+                android:layout_marginRight="8dp"/>
+
+            <ImageButton
+                android:id="@+id/historyBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:src="@drawable/ic_history"
+                android:background="@drawable/ripple"
+                app:layout_constraintTop_toTopOf="@+id/translateBtn"
+                app:layout_constraintBottom_toBottomOf="@+id/translateBtn"
+                app:layout_constraintRight_toLeftOf="@+id/pasteBtn"
+                android:layout_marginRight="8dp"/>
+
+            <ImageButton
+                android:id="@+id/micBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:src="@drawable/ic_mic"
+                android:background="@drawable/ripple"
+                app:layout_constraintTop_toTopOf="@+id/translateBtn"
+                app:layout_constraintBottom_toBottomOf="@+id/translateBtn"
+                app:layout_constraintRight_toLeftOf="@+id/historyBtn"
+                android:layout_marginRight="8dp"/>
+
+            <ImageButton
+                android:id="@+id/volumeBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:src="@drawable/ic_volume"
+                android:background="@drawable/ripple"
+                app:layout_constraintTop_toTopOf="@+id/translateBtn"
+                app:layout_constraintBottom_toBottomOf="@+id/translateBtn"
+                app:layout_constraintRight_toLeftOf="@+id/micBtn"
+                android:layout_marginRight="8dp"/>
+
+            <ImageButton
+                android:id="@+id/clearBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:src="@drawable/ic_clear"
+                android:background="@drawable/ripple_clear_btn"
+                app:layout_constraintTop_toTopOf="@id/translateBtn"
+                app:layout_constraintBottom_toBottomOf="@id/translateBtn"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginRight="8dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 
