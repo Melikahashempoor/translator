@@ -5,8 +5,9 @@
     <item
         android:id="@+id/masked">
         <shape android:shape="rectangle">
-            <solid android:color="#55A630"/>
-            <corners android:radius="10dp"/>
+            <solid android:color="#FFFFFF"/>
+            <corners android:radius="100dp"/>
+            <padding android:left="9dp" android:right="9dp" android:bottom="9dp" android:top="9dp"/>
         </shape>
     </item>
 

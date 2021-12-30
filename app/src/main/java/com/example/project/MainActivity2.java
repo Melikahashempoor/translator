@@ -3,6 +3,9 @@ package com.example.project;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,9 +22,12 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+
 public class MainActivity2 extends AppCompatActivity {
 
     TextView query;
+    ImageView back, report;
 
     String dataBase;
 
@@ -38,8 +44,6 @@ public class MainActivity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-
-
         buildRecyclerView();
 
         Bundle bundle = getIntent().getExtras();
@@ -49,6 +53,8 @@ public class MainActivity2 extends AppCompatActivity {
         String lan2 = bundle.getString("lan2");
 
         query = findViewById(R.id.queryText);
+        back = findViewById(R.id.backBtn);
+        report = findViewById(R.id.report);
 
         query.setText(q);
 
@@ -87,13 +93,24 @@ public class MainActivity2 extends AppCompatActivity {
             getSearch(ApiUtilities.token, q, "exact", dataBase);
         }
 
+        // click on back button
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
-
+        // click on report button
+        report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showBottomSheetDialog();
+            }
+        });
 
     }
-
-
-
 
 
     private void getSearch(String token, String q, String type, String filter) {
@@ -127,9 +144,8 @@ public class MainActivity2 extends AppCompatActivity {
 
         });
 
-
-
     }
+
 
     private void getSearchWithoutFilter(String token, String q, String type) {
 
@@ -162,11 +178,7 @@ public class MainActivity2 extends AppCompatActivity {
 
         });
 
-
-
     }
-
-
 
 
     public void buildRecyclerView() {
@@ -179,14 +191,13 @@ public class MainActivity2 extends AppCompatActivity {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(mAdapter);
 
-
         mAdapter.setOnItemClickListener(new RecyclerView_Adapter.OnItemClickListener() {
 
             @Override
             public void onShareClick(int position, RecyclerView_Model data) {
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
-                shareIntent.putExtra(Intent.EXTRA_TEXT, data.getText());
+                shareIntent.putExtra(Intent.EXTRA_TEXT, data.getSource() + "\n" + data.getText());
                 startActivity(Intent.createChooser(shareIntent, "انتخاب کنید"));
             }
 
@@ -201,6 +212,21 @@ public class MainActivity2 extends AppCompatActivity {
 
     }
 
+
+    public void showBottomSheetDialog() {
+
+        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(R.layout.bottom_sheet_dialog_layout);
+
+        LinearLayout reportTitle = bottomSheetDialog.findViewById(R.id.problem);
+        LinearLayout first = bottomSheetDialog.findViewById(R.id.first);
+        LinearLayout second = bottomSheetDialog.findViewById(R.id.second);
+        LinearLayout third = bottomSheetDialog.findViewById(R.id.third);
+        LinearLayout button = bottomSheetDialog.findViewById(R.id.btn);
+
+        bottomSheetDialog.show();
+
+    }
 
 
 }

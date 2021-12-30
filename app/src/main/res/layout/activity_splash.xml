@@ -4,16 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".splash">
+    tools:context=".splash"
+    android:background="#ECF3FD">
 
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/logo"
         android:layout_width="wrap_content"
-        android:layout_height="360dp"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="160dp"
         android:adjustViewBounds="true"
         android:src="@drawable/logo" />
 
@@ -25,11 +26,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="@+id/logo"
         app:layout_constraintLeft_toLeftOf="@+id/logo"
-        android:layout_marginLeft="22dp"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="100dp"
         android:text="Lexis"
         android:fontFamily="cursive"
-        android:textSize="50sp"
+        android:textSize="46sp"
         android:textStyle="bold"
         android:textColor="#403F3F" />
 
