@@ -2,7 +2,6 @@ package com.example.project;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.ClipboardManager;
@@ -10,7 +9,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
@@ -27,10 +25,11 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    String[] items = {"فارسی", "انگلیسی", "عربی", "لغتنامه دهخدا", "فرهنگ معین", "فرهنگ عمید", "مترادف و متضاد", "فرهنگ نام ها", "واژه نامه آزاد"};
+    String[] items1 = {"فارسی", "انگلیسی", "عربی"};
+    String[] items2 = {"فارسی", "انگلیسی", "عربی", "لغتنامه دهخدا", "فرهنگ معین", "فرهنگ عمید", "مترادف و متضاد", "فرهنگ نام ها", "واژه نامه آزاد"};
 
     AutoCompleteTextView autoCompleteTextView1, autoCompleteTextView2, editText;
-    ArrayAdapter<String> adapterItems, adapterItemsReverse, suggestionList;
+    ArrayAdapter<String> adapterItems1, adapterItems2, suggestionList;
     ImageButton paste, reverse, clear;
     AppCompatButton translate;
     String pasteData = "";
@@ -38,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private Call<suggestionModel> suggestions;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -52,10 +51,12 @@ public class MainActivity extends AppCompatActivity {
 
         clear.setVisibility(View.GONE);
 
-        adapterItems = new ArrayAdapter<String>(this, R.layout.dropdown_item, items);
-        autoCompleteTextView1.setAdapter(adapterItems);
-        autoCompleteTextView2.setAdapter(adapterItems);
-        adapterItems.setNotifyOnChange(true);
+        adapterItems1 = new ArrayAdapter<String>(this, R.layout.dropdown_item, items1);
+        autoCompleteTextView1.setAdapter(adapterItems1);
+        adapterItems1.setNotifyOnChange(true);
+        adapterItems2 = new ArrayAdapter<String>(this, R.layout.dropdown_item, items2);
+        autoCompleteTextView2.setAdapter(adapterItems2);
+        adapterItems2.setNotifyOnChange(true);
 
         // paste from clipboard to editText
         paste.setOnClickListener(new View.OnClickListener() {
@@ -92,10 +93,13 @@ public class MainActivity extends AppCompatActivity {
                 String lan1 = autoCompleteTextView1.getText().toString();
                 autoCompleteTextView1.setText(autoCompleteTextView2.getText().toString());
                 autoCompleteTextView2.setText(lan1);
-                adapterItemsReverse = new ArrayAdapter<String>(MainActivity.this, R.layout.dropdown_item, items);
-                autoCompleteTextView1.setAdapter(adapterItemsReverse);
-                autoCompleteTextView2.setAdapter(adapterItemsReverse);
-                adapterItemsReverse.notifyDataSetChanged();
+
+                adapterItems1 = new ArrayAdapter<String>(MainActivity.this, R.layout.dropdown_item, items1);
+                autoCompleteTextView1.setAdapter(adapterItems1);
+                adapterItems1.setNotifyOnChange(true);
+                adapterItems2 = new ArrayAdapter<String>(MainActivity.this, R.layout.dropdown_item, items2);
+                autoCompleteTextView2.setAdapter(adapterItems2);
+                adapterItems2.setNotifyOnChange(true);
             }
         });
 
@@ -111,22 +115,27 @@ public class MainActivity extends AppCompatActivity {
         translate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String q = editText.getText().toString();
-                String lan1 = autoCompleteTextView1.getText().toString();
-                String lan2 = autoCompleteTextView2.getText().toString();
-                if (q.trim().equals("")) {
-                    Toast.makeText(MainActivity.this, "متنی برای ترجمه وارد نشده است!", Toast.LENGTH_SHORT).show();
-                    return;
+                try {
+                    String q = editText.getText().toString();
+                    String lan1 = autoCompleteTextView1.getText().toString();
+                    String lan2 = autoCompleteTextView2.getText().toString();
+                    if (q.trim().equals("")) {
+                        Toast.makeText(MainActivity.this, "متنی برای ترجمه وارد نشده است!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (lan1.equals(lan2)) {
+                        Toast.makeText(MainActivity.this, "زبان مبدا و مقصد نمیتوانند یکسان باشند!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Intent intent = new Intent(getApplicationContext(),MainActivity2.class);
+                    intent.putExtra("q", q);
+                    intent.putExtra("lan1", lan1);
+                    intent.putExtra("lan2", lan2);
+                    startActivity(intent);
+                } catch (Exception e) {
+                    Toast.makeText(MainActivity.this, "لطفا زبان مبدا و مقصد را درست انتخاب کنید!", Toast.LENGTH_SHORT).show();
                 }
-                if (lan1.equals(lan2)) {
-                    Toast.makeText(MainActivity.this, "زبان مبدا و مقصد نمیتوانند یکسان باشند!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Intent intent = new Intent(getApplicationContext(),MainActivity2.class);
-                intent.putExtra("q", q);
-                intent.putExtra("lan1", lan1);
-                intent.putExtra("lan2", lan2);
-                startActivity(intent);
+
             }
         });
 

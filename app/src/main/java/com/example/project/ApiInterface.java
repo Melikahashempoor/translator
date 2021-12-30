@@ -12,4 +12,19 @@ public interface ApiInterface {
             @Query("q") String q
     );
 
+    @GET("search")
+    Call<searchModel> search(
+            @Query("token") String token,
+            @Query("q") String q,
+            @Query("type") String type,
+            @Query("filter") String filter
+    );
+
+    @GET("search")
+    Call<searchModel> search(
+            @Query("token") String token,
+            @Query("q") String q,
+            @Query("type") String type
+    );
+
 }
